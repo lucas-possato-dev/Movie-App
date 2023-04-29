@@ -10,8 +10,36 @@
   }
 }
 
-.movie-container {
+.loading {
+  height: 2px;
+  background: black;
+  overflow: hidden;
+  max-width: 75%;
+  margin: 2rem auto;
+}
+
+.loading::after {
+  content: '';
+  display: block;
+  width: 75%;
+  height: 2px;
+  background: white;
+  animation: loading 0.5s linear forwards infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(125%);
+  }
+}
+
+
+
+/*.movie-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 50px;
-}
+}*/

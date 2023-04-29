@@ -2,17 +2,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import movieApi from "../../common/api/movieApi";
 import { APIKey } from "../../common/api/MovieApiKey";
 
-export const fetchAsyncMovies = createAsyncThunk('movies/fetchAsyncMovies', async () => {
+export const fetchAsyncMovies = createAsyncThunk('movies/fetchAsyncMovies', async (term) => {
 
-  const movieText = "Harry";
-  const response = await movieApi.get(`?apiKey=${APIKey}&s=${movieText}&type=movie`)
+  const response = await movieApi.get(`?apiKey=${APIKey}&s=${term}&type=movie`);
   return response.data;
 });
 
-export const fetchAsyncShows = createAsyncThunk('movies/fetchAsyncShows', async () => {
+export const fetchAsyncShows = createAsyncThunk('movies/fetchAsyncShows', async (term) => {
 
-  const seriesText = "Friends";
-  const response = await movieApi.get(`?apiKey=${APIKey}&s=${seriesText}&type=series`)
+  const response = await movieApi.get(`?apiKey=${APIKey}&s=${term}&type=series`);
   return response.data;
 });
 
@@ -25,7 +23,8 @@ export const fetchAsyncMovieOrShowDetail = createAsyncThunk('movies/fetchAsyncMo
 const initialState = {
   movies: {},
   shows: {},
-  selectedMovieOrShow: {}
+  selectedMovieOrShow: {},
+  loading: false
 }
 
 const movieSlice = createSlice({
@@ -38,17 +37,22 @@ const movieSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAsyncMovies.pending, (state) => {})
+      .addCase(fetchAsyncMovies.pending, () => {})
       .addCase(fetchAsyncMovies.fulfilled, (state, { payload }) => {
         state.movies = payload;
       })
-      .addCase(fetchAsyncMovies.rejected, (state) => {})
+      .addCase(fetchAsyncMovies.rejected, () => {})
+      .addCase(fetchAsyncShows.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchAsyncShows.fulfilled, (state, { payload }) => {
         state.shows = payload;
+        state.loading = false;
       })
       .addCase(fetchAsyncMovieOrShowDetail.fulfilled, (state, { payload }) => {
         state.selectedMovieOrShow = payload;
-      });
+      })
+      ;
   },
 });
 

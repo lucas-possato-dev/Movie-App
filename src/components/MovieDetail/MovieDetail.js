@@ -7,9 +7,11 @@ import {
   removeSelectedMovieOrShow } from '../../features/movies/movieSlice';
 import "./MovieDetail.scss"
 
+
 const MovieDetail = () => {
   const { imdbID } = useParams();
   const dispatch = useDispatch();
+
   const data = useSelector(getSelectedMovieOrShow);
   React.useEffect(() => {
     dispatch(fetchAsyncMovieOrShowDetail(imdbID));
@@ -20,9 +22,11 @@ const MovieDetail = () => {
   return (
     <div className='movie-section'>
       {Object.keys(data).length === 0 ?
-      (<div>Loading...</div>) : (
+      (<div>
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+      </div>) : (
       <>
-        <div className='section-left'>
+        <div className='section-left anime'>
           <div className='movie-title'>{data.Title}</div>
           <div className='movie-rating'>
             <span>
@@ -64,7 +68,7 @@ const MovieDetail = () => {
             </div>
           </div>
         </div>
-        <div className='section-right'>
+        <div className='section-right anime'>
           <img src={data.Poster} alt={data.Title} />
         </div>
       </>

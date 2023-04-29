@@ -3,11 +3,14 @@ import { useSelector } from 'react-redux';
 import { getAllMovies, getAllShows } from '../../features/movies/movieSlice';
 import MovieCard from '../MovieCard/MovieCard';
 import "./MovieListing.scss";
+import { Settings } from '../../common/settings'
+import Slider from 'react-slick';
 
 const MovieListing = () => {
   const movies = useSelector(getAllMovies);
   const shows = useSelector(getAllShows);
   let renderMovies, renderShows = "";
+  const loading = useSelector((state) => state.movies.loading)
 
   renderMovies = movies.Response === "True" ? (
     movies.Search.map((movie, index) => (
@@ -28,16 +31,18 @@ const MovieListing = () => {
       <h3>{shows.Error}</h3>
       </div>
       );
+  if (loading) return <div className='loading'></div>    
   return (
-    <div className='movie-wrapper'>
+    <div className='movie-wrapper anime'>
       <div className='movie-list'>
         <h2>Movies</h2>
-        <div className='movie-container'>{renderMovies}</div>
+        <div><Slider {...Settings}>{renderMovies}</Slider></div>
       </div>
       <div className='show-list'>
         <h2>Shows</h2>
-        <div className='movie-container'>{renderShows}</div>
+        <div><Slider {...Settings}>{renderShows}</Slider></div>
       </div>
+      
     </div>
   )
 }
