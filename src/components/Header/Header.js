@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import user from "../../images/user.png";
+import user from "../../images/noir.png";
 import "./Header.scss";
 import { useDispatch } from 'react-redux';
 import { fetchAsyncMovies, fetchAsyncShows } from '../../features/movies/movieSlice';
